@@ -8,25 +8,28 @@ namespace Scipper
 {
 	WindowsAdapters::WindowsAdapters()
 	{
-		IDXGIFactory1* pRawPointer = nullptr;
-		CreateDXGIFactory1(__uuidof(IDXGIFactory1), reinterpret_cast<void**>(&pRawPointer));
+		// Create the factory.
+		IDXGIFactory1* pFactory = nullptr;
+		CreateDXGIFactory1(__uuidof(IDXGIFactory1), reinterpret_cast<void**>(&pFactory));
 
-		if (!pRawPointer)
+		// Check if the factory was created.
+		if (!pFactory)
 			throw std::runtime_error("Failed to create the factory!");
 
+		// Create the available adapters.
 		int L = 0;
 		while (true)
 		{
-			CComPtr<IDXGIAdapter1> lDxgiAdapter = nullptr;
-			pRawPointer->EnumAdapters1(L, &lDxgiAdapter);
+			CComPtr<IDXGIAdapter1> pAdapter = nullptr;
+			pFactory->EnumAdapters1(L, &pAdapter);
 
-			if (!lDxgiAdapter)
+			if (!pAdapter)
 				break;
 
-			mAdapters.push_back(lDxgiAdapter);
+			mAdapters.push_back(pAdapter);
 			L++;
 		}
 
-		delete pRawPointer;
+		//delete pRawPointer;
 	}
 }

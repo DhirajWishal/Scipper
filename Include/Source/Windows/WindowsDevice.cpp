@@ -8,10 +8,6 @@ namespace Scipper
 {
 	WindowsDevice::WindowsDevice(IDXGIAdapter1* pAdapter)
 	{
-		// Check if the adapter is valid.
-		if (!pAdapter)
-			throw std::invalid_argument("Adapter pointer should not be nullptr!");
-
 		HRESULT hr = S_OK;
 
 		// Driver types supported
